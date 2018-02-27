@@ -22,6 +22,7 @@ namespace YetAnotherBlog.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
 
@@ -29,11 +30,13 @@ namespace YetAnotherBlog.Controllers
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _roleManager = roleManager;
             _logger = logger;
         }
 
@@ -232,6 +235,17 @@ namespace YetAnotherBlog.Controllers
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
+
+                    // If this is the first user to register, give him the Admin role. Otherwise, add the user to Member.
+                    if (_userManager.Users == null)
+                    {
+                        await _userManager.AddToRoleAsync(user, "Admin");
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, "Member");
+                    }
+
                     return RedirectToLocal(returnUrl);
                 }
                 AddErrors(result);
@@ -457,6 +471,11 @@ namespace YetAnotherBlog.Controllers
             {
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
+        }
+
+        private async Task<IdentityRole> GetUserRoleAsync(string id)
+        {
+            return await _roleManager.FindByIdAsync(id);
         }
 
         #endregion
