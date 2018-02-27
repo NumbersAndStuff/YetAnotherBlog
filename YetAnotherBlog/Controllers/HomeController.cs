@@ -17,7 +17,7 @@ namespace YetAnotherBlog.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "A minimalist bloggin platform.";
 
             return View();
         }
