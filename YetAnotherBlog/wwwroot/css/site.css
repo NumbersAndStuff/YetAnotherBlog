@@ -3,6 +3,9 @@
     padding-bottom: 20px;
 }
 
+hr {
+    clear: both;
+}
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
@@ -10,15 +13,35 @@
     padding-right: 15px;
 }
 
-/* Carousel */
-.carousel-caption p {
-    font-size: 20px;
-    line-height: 1.4;
+.sidebar-nav {
+    height: 100%;
+    overflow-y: auto;
+    background: #222;
+    top: 0;
+    width: 14em;
+    padding: 0 10px 1em 1em;
+    margin: 0 0 0 0;
+    list-style: none;
+    float: left;
 }
 
-/* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"] {
-    width: 100%;
+.sidebar-nav a {
+    color: #818181;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.sidebar-nav a:hover {
+    color: #F1F1F1;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.sidebar-nav .sidebar-brand {
+    padding-top: .5em;
+    padding-bottom: .25em;
+    font-size: 24px;
+    color: #818181;
 }
 
 /* QR code generator */
