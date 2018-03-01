@@ -43,9 +43,17 @@
         <ul class="sidebar-nav">
             <li class="sidebar-brand">Side Menu</li>
             <li class="sidebar-item"><a href="#">Side Link</a></li>
+            <li>
+                <span class="form-group">
+                    <input type="text" class="form-control" asp-controller="Home" asp-action="Search" placeholder="Search"/>
+                    <button type="submit" class="btn btn-default">Search</button>
+                </span>
+            </li>
         </ul>
 
-        @RenderBody()
+        <div class="page-content">
+            @RenderBody()
+        </div>
         <hr />
         <footer>
             <p>&copy; 2018 - YetAnotherBlog</p>

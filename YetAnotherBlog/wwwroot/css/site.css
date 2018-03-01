@@ -13,6 +13,10 @@ hr {
     padding-right: 15px;
 }
 
+.body-content {
+    clear: left;
+}
+
 .sidebar-nav {
     height: 100%;
     overflow-y: auto;
