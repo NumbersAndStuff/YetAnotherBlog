@@ -11,10 +11,17 @@ hr {
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    width: 100%;
 }
 
-.body-content {
-    clear: left;
+.page-content {
+    float: left;
+    padding-left: 15px;
+    width: 85%;
+}
+
+.create-post-body {
+    width: 100%;
 }
 
 .sidebar-nav {

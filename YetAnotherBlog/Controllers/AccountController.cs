@@ -223,11 +223,11 @@ namespace YetAnotherBlog.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Username, Email = model.Email };
+                var user = new ApplicationUser { Name = model.Username, UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    _logger.LogInformation($"User ({model.Username}) created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
@@ -238,7 +238,7 @@ namespace YetAnotherBlog.Controllers
 
                     await _userManager.AddToRoleAsync(user, "Member");
 
-                    if (user.UserName == "Admin")
+                    if (user.Name == "Admin")
                     {
                         await _userManager.AddToRoleAsync(user, "Admin");
                         _logger.LogInformation("Created Admin user");
@@ -344,9 +344,8 @@ namespace YetAnotherBlog.Controllers
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                // Don't reveal that the user does not exist
-                ModelState.AddModelError(String.Empty, "Could not find email");
-                //return RedirectToAction(nameof(ResetPasswordConfirmation));
+                // Don't reveal that the user does not exist]
+                return RedirectToAction(nameof(ResetPasswordConfirmation));
             }
             var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
             if (result.Succeeded)

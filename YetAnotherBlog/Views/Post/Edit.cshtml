@@ -1,0 +1,70 @@
+﻿@model YetAnotherBlog.Models.PostModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>PostModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Post" class="control-label"></label>
+                <input asp-for="Post" class="form-control" />
+                <span asp-validation-for="Post" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tags" class="control-label"></label>
+                <input asp-for="Tags" class="form-control" />
+                <span asp-validation-for="Tags" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="AllowResponses" /> @Html.DisplayNameFor(model => model.AllowResponses)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="ResponseCount" class="control-label"></label>
+                <input asp-for="ResponseCount" class="form-control" />
+                <span asp-validation-for="ResponseCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TimePosted" class="control-label"></label>
+                <input asp-for="TimePosted" class="form-control" />
+                <span asp-validation-for="TimePosted" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Edited" /> @Html.DisplayNameFor(model => model.Edited)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastEdited" class="control-label"></label>
+                <input asp-for="LastEdited" class="form-control" />
+                <span asp-validation-for="LastEdited" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

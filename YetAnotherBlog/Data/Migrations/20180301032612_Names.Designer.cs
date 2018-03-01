@@ -11,9 +11,10 @@ using YetAnotherBlog.Data;
 namespace YetAnotherBlog.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180301032612_Names")]
+    partial class Names
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -179,32 +180,6 @@ namespace YetAnotherBlog.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("YetAnotherBlog.Models.PostModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("AllowResponses");
-
-                    b.Property<bool>("Edited");
-
-                    b.Property<DateTime>("LastEdited");
-
-                    b.Property<string>("Post");
-
-                    b.Property<int>("ResponseCount");
-
-                    b.Property<string>("Tags");
-
-                    b.Property<DateTime>("TimePosted");
-
-                    b.Property<string>("Title");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PostModel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

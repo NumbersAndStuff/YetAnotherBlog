@@ -1,5 +1,6 @@
 @using Microsoft.AspNetCore.Identity
 @using YetAnotherBlog.Models
+@using YetAnotherBlog.Extensions
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
@@ -10,19 +11,20 @@
     <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
 
-            @if (User.IsInRole("Admin") || User.IsInRole("Poster") || User.IsInRole("Member"))
+            @if (User.IsInRole("Admin"))
             {
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Controls</a>
                     <ul class="dropdown-menu">
-                        <li><a asp-controller="Post" asp-action="New">New Post</a></li>
-                        <li><a asp-controller="Post" asp-action="ManagePosts">Manage Posts</a></li>
-                        <li><a asp-controller="Account" asp-action="ManageUsers">Manage Users</a></li>
+                        <li><a asp-area="" asp-controller="Post" asp-action="Index">Index</a></li>
+                        <li><a asp-area="" asp-controller="Post" asp-action="Create">New Post</a></li>
+                        <li><a asp-area="" asp-controller="Post" asp-action="Manage">Manage Posts</a></li>
+                        <li><a asp-area="" asp-controller="Manage" asp-action="Index">Manage Users</a></li>
                     </ul>
                 </li>
             }
             <li>
-                <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)! @User.IsInRole("Admin")</a>
+                <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @User.Identity.GetName()!</a>
             </li>
             <li>
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button>

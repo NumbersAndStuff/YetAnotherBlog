@@ -1,0 +1,66 @@
+﻿@model YetAnotherBlog.Models.PostModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PostModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Post)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Post)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Tags)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tags)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AllowResponses)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AllowResponses)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ResponseCount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ResponseCount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TimePosted)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TimePosted)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Edited)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Edited)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LastEdited)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LastEdited)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
