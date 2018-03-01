@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using YetAnotherBlog.Data;
 using YetAnotherBlog.Models;
@@ -60,7 +58,7 @@ namespace YetAnotherBlog.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,Poster")]
-        public async Task<IActionResult> Create([Bind("Id,Title,Post,Tags,AllowResponses,ResponseCount,TimePosted,Edited,LastEdited")] PostModel postModel)
+        public async Task<IActionResult> Create([Bind("Id,Title,Post,Tags,AllowResponses")] PostModel postModel)
         {
             if (ModelState.IsValid)
             {
@@ -99,7 +97,7 @@ namespace YetAnotherBlog.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,Poster")]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Title,Post,Tags,AllowResponses,ResponseCount,TimePosted,Edited,LastEdited")] PostModel postModel)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Title,Post,Tags,AllowResponses")] PostModel postModel)
         {
             if (id != postModel.Id)
             {
@@ -110,7 +108,15 @@ namespace YetAnotherBlog.Controllers
             {
                 try
                 {
-                    _context.Update(postModel);
+                    var post = await _context.PostModel.FirstOrDefaultAsync(p => p.Id == id);
+                    post.Title = postModel.Title;
+                    post.Post = postModel.Post;
+                    post.Tags = postModel.Tags;
+                    post.Edited = true;
+                    post.AllowResponses = postModel.AllowResponses;
+                    post.LastEdited = DateTime.Now;
+
+                    _context.Update(post);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

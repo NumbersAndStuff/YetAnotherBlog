@@ -9,7 +9,7 @@
 <h4>PostModel</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
@@ -19,12 +19,12 @@
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Post" class="control-label"></label>
-                <input asp-for="Post" class="form-control" />
+                <label asp-for="Post" class="control-label">Body of post:</label>
+                <textarea asp-for="Post" class="form-control" rows="10"></textarea>
                 <span asp-validation-for="Post" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Tags" class="control-label"></label>
+                <label asp-for="Tags" class="control-label">Tags (separate with a comma):</label>
                 <input asp-for="Tags" class="form-control" />
                 <span asp-validation-for="Tags" class="text-danger"></span>
             </div>
@@ -34,28 +34,6 @@
                         <input asp-for="AllowResponses" /> @Html.DisplayNameFor(model => model.AllowResponses)
                     </label>
                 </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="ResponseCount" class="control-label"></label>
-                <input asp-for="ResponseCount" class="form-control" />
-                <span asp-validation-for="ResponseCount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TimePosted" class="control-label"></label>
-                <input asp-for="TimePosted" class="form-control" />
-                <span asp-validation-for="TimePosted" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Edited" /> @Html.DisplayNameFor(model => model.Edited)
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastEdited" class="control-label"></label>
-                <input asp-for="LastEdited" class="form-control" />
-                <span asp-validation-for="LastEdited" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />

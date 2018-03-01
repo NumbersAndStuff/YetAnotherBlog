@@ -25,5 +25,6 @@ namespace YetAnotherBlog.Data
         }
 
         public DbSet<PostModel> PostModel { get; set; }
+        public DbSet<ResponseModel> Responses { get; set; }
     }
 }
