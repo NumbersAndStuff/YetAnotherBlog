@@ -12,10 +12,17 @@
         <div>
             @Html.DisplayFor(model => model.Post)
             <hr />
-            @Html.DisplayNameFor(model => model.Tags):  @Html.DisplayFor(model => model.Tags) <br />
+            
+            @if (Model.Tags != null) {
+                @Html.DisplayNameFor(model => model.Tags) <text>:</text>
+                @Html.DisplayFor(model => model.Tags) <br />
+            }
+
             Posted at: @Html.DisplayFor(model => model.TimePosted) <br />
-            @Html.DisplayNameFor(model => model.Edited): @Html.DisplayFor(model => model.Edited) <br />
-            @Html.DisplayNameFor(model => model.LastEdited):  @Html.DisplayFor(model => model.LastEdited) <br />
+            
+            @if (Model.Edited == true) {
+                <text>Last Edited:</text> @Html.DisplayFor(model => model.LastEdited) <br />
+            }
         </div>
     </div>
     <div class="row">
