@@ -1,5 +1,7 @@
 ﻿@model YetAnotherBlog.Models.PostModel
 
+@inject UserManager<ApplicationUser> UserManager
+
 @{
     ViewData["Title"] = @Html.DisplayFor(model => model.Title);
 }
@@ -12,15 +14,17 @@
         <div>
             @Html.DisplayFor(model => model.Post)
             <hr />
-            
-            @if (Model.Tags != null) {
+
+            @if (Model.Tags != null)
+            {
                 @Html.DisplayNameFor(model => model.Tags) <text>:</text>
                 @Html.DisplayFor(model => model.Tags) <br />
             }
 
             Posted at: @Html.DisplayFor(model => model.TimePosted) <br />
-            
-            @if (Model.Edited == true) {
+
+            @if (Model.Edited == true)
+            {
                 <text>Last Edited:</text> @Html.DisplayFor(model => model.LastEdited) <br />
             }
         </div>
@@ -30,6 +34,8 @@
     </div>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    @if (User.IsInRole("Admin") || User.IsInRole("Poster")) {
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> <text>|</text>
+     }
     <a asp-action="Index">Back to List</a>
 </div>
