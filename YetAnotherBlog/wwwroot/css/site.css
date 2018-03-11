@@ -60,6 +60,10 @@ hr {
     color: #818181;
 }
 
+.post-time {
+    font-size: 10px;
+}
+
 /* QR code generator */
 #qrCode {
     margin: 15px;

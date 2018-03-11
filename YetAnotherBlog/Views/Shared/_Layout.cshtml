@@ -41,6 +41,10 @@
 
     <div class="container"><!-- body-content">-->
         <div class="row">
+            <div class="page-content col-lg-10">
+                @RenderBody()
+            </div>
+
             <ul class="sidebar-nav col-lg-2">
                 <li class="sidebar-brand">Side Menu</li>
                 <li class="sidebar-item"><a href="#">Side Link</a></li>
@@ -51,10 +55,6 @@
                     </span>
                 </li>
             </ul>
-
-            <div class="page-content col-lg-10">
-                @RenderBody()
-            </div>
         </div>
 
         <hr />

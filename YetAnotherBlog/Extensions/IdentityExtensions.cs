@@ -10,9 +10,9 @@ namespace YetAnotherBlog.Extensions
     {
         public static string GetName(this System.Security.Principal.IIdentity identity)
         {
-            var claim = ((ClaimsIdentity)identity).FindFirst("Name");
+            var claim = ((ClaimsIdentity)identity).Name;
 
-            return (claim != null) ? claim.Value : String.Empty;
+            return (claim != null) ? claim : String.Empty;
         }
     }
 }

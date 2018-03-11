@@ -21,16 +21,22 @@
                 @Html.DisplayFor(model => model.Tags) <br />
             }
 
-            Posted at: @Html.DisplayFor(model => model.TimePosted) <br />
+            <p class="post-time">Posted at: @Html.DisplayFor(model => model.TimePosted)</p>
 
             @if (Model.Edited == true)
             {
-                <text>Last Edited:</text> @Html.DisplayFor(model => model.LastEdited) <br />
+                <p class="post-time"><text>Last Edited:</text> @Html.DisplayFor(model => model.LastEdited)</p>
             }
-        </div>
-    </div>
-    <div class="row">
 
+        </div>
+
+        <div>
+            <h3>Post Response</h3>
+        </div>
+
+        <div>
+            <h3>Responses (@Html.DisplayFor(model => model.ResponseCount)) </h3>
+        </div>
     </div>
 </div>
 <div>
