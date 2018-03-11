@@ -18,10 +18,10 @@ namespace YetAnotherBlog.Models
         public string Contents { get; set; }
 
         // ID of the user who posted this response
-        public Guid PostedBy { get; set; }
+        public string PostedBy { get; set; }
 
         // The post date of the response, will be used to order responses properly
-        public Guid DatePosted { get; set; }
+        public DateTime DatePosted { get; set; }
 
         // Is this response hidden (eg for moderation?)
         public bool Hidden { get; set; }

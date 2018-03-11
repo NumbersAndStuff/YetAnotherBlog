@@ -1,21 +1,25 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using YetAnotherBlog.Data;
 using YetAnotherBlog.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace YetAnotherBlog.Controllers
 {
     public class PostController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public PostController(ApplicationDbContext context)
+        public PostController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: PostModels
@@ -42,6 +46,31 @@ namespace YetAnotherBlog.Controllers
             }
 
             return View(postModel);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin,Poster,Member")]
+        public async Task<IActionResult> Reply(ResponseModel response)
+        {
+            response.DatePosted = DateTime.Now;
+            response.PostedBy = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            response.Hidden = false;
+
+            await _context.Responses.AddAsync(response);
+
+            // Redirect back to post
+            var post = await _context.PostModel.SingleOrDefaultAsync(m => m.Id == response.ResponseTo);
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            post.ResponseCount++;
+            _context.PostModel.Update(post);
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(View) + "/" + response.ResponseTo);
         }
 
         // GET: PostModels/Create
@@ -169,8 +198,14 @@ namespace YetAnotherBlog.Controllers
         [HttpGet]
         public async Task<IActionResult> View(Guid id)
         {
-            var postModel = await _context.PostModel.FirstAsync(p => p.Id == id);
-            return View(postModel);
+            var pageModel = new ViewPostViewModel();
+            pageModel.UserResponse = new ResponseModel();
+
+            pageModel.Post = await _context.PostModel.FirstAsync(p => p.Id == id);
+            pageModel.UserResponse.ResponseTo = pageModel.Post.Id;
+
+            // TODO: Add code to retrieve responses.
+            return View(pageModel);
         }
 
         private bool PostModelExists(Guid id)
