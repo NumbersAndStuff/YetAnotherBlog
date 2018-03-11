@@ -25,5 +25,7 @@ namespace YetAnotherBlog.Models
 
         // Is this response hidden (eg for moderation?)
         public bool Hidden { get; set; }
+
+        public string PostedByName { get; set; }
     }
 }

@@ -35,8 +35,15 @@
         </div>
 
         <div>
-            <h3>Responses (@Html.DisplayFor(model => model.Post.ResponseCount)) </h3>
-            
+            <h3>Responses (@Html.DisplayFor(model => model.Responses.Count)) </h3>
+            @foreach(var response in Model.Responses)
+            {
+                <div>
+                   <b>@response.PostedByName:</b> <span>Posted at: @response.DatePosted</span><br />
+                    
+                   @response.Contents
+                </div>
+            }
         </div>
     </div>
 </div>

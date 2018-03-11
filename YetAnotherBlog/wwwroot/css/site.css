@@ -7,10 +7,6 @@ hr {
     clear: both;
 }
 
-.create-post-body {
-
-}
-
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
@@ -23,10 +19,6 @@ hr {
     float: left;
     padding-left: 15px;
     width: 85%;
-}
-
-.create-post-body {
-    /*width: 100%;*/
 }
 
 .sidebar-nav {

@@ -8,7 +8,7 @@ namespace YetAnotherBlog.Models
     public class ViewPostViewModel
     {
         public PostModel Post { get; set; }
-        public ResponseModel Responses { get; set; }
+        public List<ResponseModel> Responses { get; set; }
         public ResponseModel UserResponse { get; set; }
     }
 }

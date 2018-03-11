@@ -203,8 +203,12 @@ namespace YetAnotherBlog.Controllers
 
             pageModel.Post = await _context.PostModel.FirstAsync(p => p.Id == id);
             pageModel.UserResponse.ResponseTo = pageModel.Post.Id;
+            pageModel.UserResponse.PostedByName = User.Identity.Name;
 
-            // TODO: Add code to retrieve responses.
+            // Retrieve and sort all responses
+            pageModel.Responses = await _context.Responses.Where(r => r.ResponseTo.Equals(id)).ToListAsync();
+            pageModel.Responses.Sort((x, y) => DateTime.Compare(x.DatePosted, y.DatePosted));
+
             return View(pageModel);
         }
 
