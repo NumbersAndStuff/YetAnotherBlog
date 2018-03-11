@@ -7,6 +7,6 @@ namespace YetAnotherBlog.Models
 {
     public class HomeViewModel
     {
-        public IEnumerable<Posts> Posts { get; set; }
+        public List<Posts> Posts { get; set; }
     }
 }

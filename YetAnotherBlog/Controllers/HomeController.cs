@@ -21,7 +21,8 @@ namespace YetAnotherBlog.Controllers
         public IActionResult Index()
         {
             HomeViewModel viewModel = new HomeViewModel();
-            viewModel.Posts = _context.PostModel.Take(10);
+            viewModel.Posts = _context.PostModel.Take(10).ToList();
+            viewModel.Posts.Sort((x, y) => -DateTime.Compare(x.TimePosted, y.TimePosted));
 
             return View(viewModel);
         }
