@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace YetAnotherBlog.Models
 {
-    public class PostModel
+    public class Posts
     {
         [Key]
         public Guid Id { get; set; }

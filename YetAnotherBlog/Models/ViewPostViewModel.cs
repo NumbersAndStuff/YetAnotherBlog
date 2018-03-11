@@ -7,7 +7,7 @@ namespace YetAnotherBlog.Models
 {
     public class ViewPostViewModel
     {
-        public PostModel Post { get; set; }
+        public Posts Post { get; set; }
         public List<ResponseModel> Responses { get; set; }
         public ResponseModel UserResponse { get; set; }
     }

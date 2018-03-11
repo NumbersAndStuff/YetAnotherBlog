@@ -22,14 +22,14 @@ namespace YetAnotherBlog.Controllers
             _userManager = userManager;
         }
 
-        // GET: PostModels
+        // GET: Postss
         [Authorize(Roles = "Admin,Poster")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.PostModel.ToListAsync());
         }
 
-        // GET: PostModels/Details/5
+        // GET: Postss/Details/5
         [Authorize(Roles = "Admin,Poster")]
         public async Task<IActionResult> Details(Guid? id)
         {
@@ -87,7 +87,7 @@ namespace YetAnotherBlog.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,Poster")]
-        public async Task<IActionResult> Create([Bind("Id,Title,Post,Tags,AllowResponses")] PostModel postModel)
+        public async Task<IActionResult> Create([Bind("Id,Title,Post,Tags,AllowResponses")] Posts postModel)
         {
             if (ModelState.IsValid)
             {
@@ -126,7 +126,7 @@ namespace YetAnotherBlog.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,Poster")]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Title,Post,Tags,AllowResponses")] PostModel postModel)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Title,Post,Tags,AllowResponses")] Posts postModel)
         {
             if (id != postModel.Id)
             {

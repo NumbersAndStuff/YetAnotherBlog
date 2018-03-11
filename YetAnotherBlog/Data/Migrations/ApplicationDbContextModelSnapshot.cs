@@ -181,7 +181,7 @@ namespace YetAnotherBlog.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("YetAnotherBlog.Models.PostModel", b =>
+            modelBuilder.Entity("YetAnotherBlog.Models.Posts", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();

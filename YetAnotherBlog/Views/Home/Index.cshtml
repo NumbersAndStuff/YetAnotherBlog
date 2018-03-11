@@ -1,6 +1,22 @@
-﻿@inject UserManager<ApplicationUser> UserManager
+﻿@model YetAnotherBlog.Models.HomeViewModel
+
+@inject UserManager<ApplicationUser> UserManager
 @inject RoleManager<IdentityRole> RoleManager
 
 @{
     ViewData["Title"] = "YetAnotherBlog";
+}
+
+@foreach (var Post in Model.Posts)
+{
+    <div>
+        @{ 
+            //var a = new Dictionary<string, string> { { "Id", Post.Id.ToString } };
+        }
+        <h3><a asp-controller="Post" asp-action="View" asp-route-id=@Post.Id.ToString()>@Post.Title</a></h3> <hr />
+        <div>
+            @Post.Post
+        </div>
+    </div>
+    <hr />
 }

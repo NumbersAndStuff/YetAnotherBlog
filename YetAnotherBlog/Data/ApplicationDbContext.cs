@@ -24,7 +24,7 @@ namespace YetAnotherBlog.Data
             // Add your customizations after calling base.OnModelCreating(builder);
         }
 
-        public DbSet<PostModel> PostModel { get; set; }
+        public DbSet<Posts> PostModel { get; set; }
         public DbSet<ResponseModel> Responses { get; set; }
     }
 }

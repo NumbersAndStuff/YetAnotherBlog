@@ -1,7 +1,7 @@
 ﻿@model YetAnotherBlog.Models.ResponseModel
 
 
-<h3>Post Response (to post @Html.DisplayFor(model => model.ResponseTo))</h3>
+<h3>Post Response</h3>
 
 @if (User.IsInRole("Admin") || User.IsInRole("Poster") || User.IsInRole("Member"))
 {
