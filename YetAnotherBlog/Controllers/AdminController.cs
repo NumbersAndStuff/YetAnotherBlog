@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -23,9 +25,12 @@ namespace YetAnotherBlog.Controllers
     {
         private readonly ApplicationDbContext dbContext;
 
-        public AdminController(ApplicationDbContext context)
+        private IHostingEnvironment environment;
+
+        public AdminController(ApplicationDbContext context, IHostingEnvironment _environment)
         {
             dbContext = context;
+            environment = _environment;
         }
 
         public IActionResult Index()
@@ -38,9 +43,44 @@ namespace YetAnotherBlog.Controllers
             return View();
         }
 
+        [HttpPost]
+        public async Task<RedirectToActionResult> UploadPage(UploadViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("UploadPage");
+            }
+
+            foreach (var f in model.File)
+            {
+                FileStream target = new FileStream(Path.Combine(Hosting.WebRootPath, "static", f.FileName), FileMode.Create);
+                await f.CopyToAsync(target);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
         public IActionResult UploadFiles()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<RedirectToActionResult> UploadFiles(UploadViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("UploadFiles");
+            }
+
+            foreach (var f in model.File)
+            {
+                FileStream target = new FileStream(Path.Combine(Hosting.WebRootPath, "files", f.FileName), FileMode.Create);
+                await f.CopyToAsync(target);
+            }
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult Options()
