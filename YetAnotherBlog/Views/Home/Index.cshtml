@@ -10,9 +10,6 @@
 @foreach (var Post in Model.Posts)
 {
     <div>
-        @{ 
-            //var a = new Dictionary<string, string> { { "Id", Post.Id.ToString } };
-        }
         <h3><a asp-controller="Post" asp-action="View" asp-route-id=@Post.Id.ToString()>@Post.Title</a></h3> <hr />
         <div>
             @Post.Post

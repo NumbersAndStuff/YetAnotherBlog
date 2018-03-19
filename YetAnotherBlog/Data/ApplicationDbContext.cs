@@ -26,6 +26,6 @@ namespace YetAnotherBlog.Data
 
         public DbSet<Posts> PostModel { get; set; }
         public DbSet<ResponseModel> Responses { get; set; }
-        public DbSet<StaticContent> StaticContent { get; set; }
+        //public DbSet<StaticContent> StaticContent { get; set; }
     }
 }
