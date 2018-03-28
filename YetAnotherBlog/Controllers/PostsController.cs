@@ -65,10 +65,14 @@ namespace YetAnotherBlog.Controllers
                 return NotFound();
             }
 
-            post.ResponseCount++;
-            _context.PostModel.Update(post);
+            // Only post the response if responses are allowed
+            if (post.AllowResponses == true)
+            {
+                post.ResponseCount++;
+                _context.PostModel.Update(post);
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+            }
 
             return RedirectToAction(nameof(View) + "/" + response.ResponseTo);
         }

@@ -1,21 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.IO;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using YetAnotherBlog.Data;
 using YetAnotherBlog.Models;
-using YetAnotherBlog.Models.AccountViewModels;
-using YetAnotherBlog.Services;
 
 namespace YetAnotherBlog.Controllers
 {
@@ -53,7 +42,7 @@ namespace YetAnotherBlog.Controllers
 
             foreach (var f in model.File)
             {
-                FileStream target = new FileStream(Path.Combine(Hosting.WebRootPath, "static", f.FileName), FileMode.Create);
+                FileStream target = new FileStream(Path.Combine(environment.WebRootPath, "static", f.FileName), FileMode.Create);
                 await f.CopyToAsync(target);
             }
 
@@ -76,7 +65,7 @@ namespace YetAnotherBlog.Controllers
 
             foreach (var f in model.File)
             {
-                FileStream target = new FileStream(Path.Combine(Hosting.WebRootPath, "files", f.FileName), FileMode.Create);
+                FileStream target = new FileStream(Path.Combine(environment.WebRootPath, "files", f.FileName), FileMode.Create);
                 await f.CopyToAsync(target);
             }
 

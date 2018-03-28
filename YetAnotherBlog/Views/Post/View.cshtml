@@ -30,24 +30,31 @@
 
         </div>
 
-        <div>
-            @await Html.PartialAsync("_ResponseForm", Model.UserResponse)
-        </div>
+        @if (Model.Post.AllowResponses == true)
+        {
+            <div>
+                @await Html.PartialAsync("_ResponseForm", Model.UserResponse)
+            </div>
 
-        <div>
-            @if (Model.Responses.Count > 0)
+            <div>
+                @if (Model.Responses.Count > 0)
                 {
                     <h3>Responses (@Html.DisplayFor(model => model.Responses.Count)) </h3>
                     @foreach (var response in Model.Responses)
                     {
-                        <div>
-                        <b>@response.PostedByName:</b> <span>Posted at: @response.DatePosted</span><br />
+                        <!-- Don't show hidden responses -->
+                        @if (response.Hidden == false)
+                        {
+                             <div>
+                                 <b>@response.PostedByName:</b> <span>Posted at: @response.DatePosted</span><br />
                     
-                           @response.Contents
-                        </div>
+                                 @response.Contents
+                             </div>
+                        }
                     }
                 }
-        </div>
+            </div>
+        }
     </div>
 </div>
 <div>
