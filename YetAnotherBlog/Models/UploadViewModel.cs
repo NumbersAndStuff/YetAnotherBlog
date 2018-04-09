@@ -8,6 +8,6 @@ namespace YetAnotherBlog.Models
 {
     public class UploadViewModel
     {
-        public ICollection<IFormFile> File { get; set; }
+        public IEnumerable<IFormFile> File { get; set; }
     }
 }

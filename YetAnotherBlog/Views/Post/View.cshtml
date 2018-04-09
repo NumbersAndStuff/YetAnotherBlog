@@ -12,7 +12,8 @@
     <hr />
     <div class="col-md-12">
         <div>
-            @Html.DisplayFor(model => model.Post.Post)
+            <!--@Html.DisplayFor(model => model.Post.Post)-->
+            @Html.Raw(Model.Post.Post)
             <hr />
 
             @if (Model.Post.Tags != null)

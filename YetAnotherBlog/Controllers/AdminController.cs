@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using YetAnotherBlog.Data;
 using YetAnotherBlog.Models;
+using Newtonsoft.Json;
 
 namespace YetAnotherBlog.Controllers
 {
@@ -40,10 +41,20 @@ namespace YetAnotherBlog.Controllers
                 return RedirectToAction("UploadPage");
             }
 
-            foreach (var f in model.File)
+            if (model.File != null)
             {
-                FileStream target = new FileStream(Path.Combine(environment.WebRootPath, "static", f.FileName), FileMode.Create);
-                await f.CopyToAsync(target);
+                foreach (var file in model.File)
+                {
+                    if (file.Length > 0)
+                    {
+                        FileStream target = new FileStream(Path.Combine(environment.WebRootPath, "static", file.FileName), FileMode.Create);
+                        await file.CopyToAsync(target);
+                    }
+                }
+            }
+            else
+            {
+                return RedirectToAction("UploadPage");
             }
 
             return RedirectToAction("Index");
@@ -63,18 +74,51 @@ namespace YetAnotherBlog.Controllers
                 return RedirectToAction("UploadFiles");
             }
 
-            foreach (var f in model.File)
+            if (model.File != null)
             {
-                FileStream target = new FileStream(Path.Combine(environment.WebRootPath, "files", f.FileName), FileMode.Create);
-                await f.CopyToAsync(target);
+                foreach (var file in model.File)
+                {
+                    if (file.Length > 0)
+                    {
+                        FileStream target = new FileStream(Path.Combine(environment.WebRootPath, "files", file.FileName), FileMode.Create);
+                        await file.CopyToAsync(target);
+                    }
+                }
+            }
+            else
+            {
+                return RedirectToAction("UploadFiles");
             }
 
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
         public IActionResult Options()
         {
             return View();
+        }
+
+        [HttpPost]
+        public RedirectToActionResult Options(AdminSettings model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Options");
+            }
+
+            string optionsJSON = JsonConvert.SerializeObject(model, Formatting.Indented);
+            StreamWriter optionsFile = new StreamWriter(Path.Combine(environment.WebRootPath, "json", "options.json"));
+
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.NullValueHandling = NullValueHandling.Include;
+
+            using (JsonWriter writer = new JsonTextWriter(optionsFile))
+            {
+                serializer.Serialize(writer, model);
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }
