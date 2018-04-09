@@ -464,6 +464,13 @@ namespace YetAnotherBlog.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        [Authorize(Roles ="Admin")]
+        public IActionResult UserList()
+        {
+            return View();
+        }
+
         #region Helpers
 
         private void AddErrors(IdentityResult result)
