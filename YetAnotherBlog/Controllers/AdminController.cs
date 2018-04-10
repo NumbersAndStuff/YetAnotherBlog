@@ -145,7 +145,8 @@ namespace YetAnotherBlog.Controllers
         [HttpGet]
         public IActionResult DeletePage(string file, string type)
         {
-            System.IO.File.Delete(Path.Combine(environment.WebRootPath, staticPath, file + '.' + type));
+            if (System.IO.File.Exists(Path.Combine(environment.WebRootPath, staticPath, file + '.' + type)))
+                System.IO.File.Delete(Path.Combine(environment.WebRootPath, staticPath, file + '.' + type));
 
             return RedirectToAction(nameof(ViewFiles));
         }
@@ -170,7 +171,8 @@ namespace YetAnotherBlog.Controllers
         [HttpGet]
         public IActionResult DeleteFile(string file, string type)
         {
-            System.IO.File.Delete(Path.Combine(environment.WebRootPath, filePath, file + '.' + type));
+            if (System.IO.File.Exists(Path.Combine(environment.WebRootPath, filePath, file + '.' + type)))
+                System.IO.File.Delete(Path.Combine(environment.WebRootPath, filePath, file + '.' + type));
 
             return RedirectToAction(nameof(ViewFiles));
         }
