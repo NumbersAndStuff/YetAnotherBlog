@@ -1,4 +1,5 @@
-﻿
+﻿@model YetAnotherBlog.Models.UserListViewModel
+
 @{
     ViewData["Title"] = "User List";
     Layout = "/Views/Shared/_Layout.cshtml";
@@ -21,17 +22,22 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <th>
-                Email Address
-            </th>
-            <th>
-                Role
-            </th>
-            <th>
-                <a href="#">Delete</a> | <a href="#">Change Role</a>
-            </th>
-        </tr>
-
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <th>
+                    @user.Email
+                </th>
+                <th>
+                    @foreach (var role in user.Roles)
+                    {
+                        @role
+                    }
+                </th>
+                <th>
+                    <a asp-action="Delete" asp-route-email=@user.Email>Delete Account</a> | <a asp-action="ChangeRole" asp-route-email="@user.Email">Change Role</a>
+                </th>
+            </tr>
+        }
     </tbody>
 </table>

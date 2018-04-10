@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using YetAnotherBlog.Data;
 using YetAnotherBlog.Models;
 using YetAnotherBlog.Models.ManageViewModels;
 using YetAnotherBlog.Services;
@@ -25,7 +26,8 @@ namespace YetAnotherBlog.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
-
+        private readonly ApplicationDbContext _context;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private const string AuthenicatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
         public ManageController(
@@ -33,13 +35,17 @@ namespace YetAnotherBlog.Controllers
           SignInManager<ApplicationUser> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+          UrlEncoder urlEncoder,
+          ApplicationDbContext context,
+          RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
             _urlEncoder = urlEncoder;
+            _context = context;
+            _roleManager = roleManager;
         }
 
         [TempData]
@@ -465,10 +471,23 @@ namespace YetAnotherBlog.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles ="Admin")]
-        public IActionResult UserList()
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UserList()
         {
-            return View();
+            List<ApplicationUser> Users = _userManager.Users.ToList();
+            UserListViewModel UserModel = new UserListViewModel { Users = new List<User>() };
+
+            foreach (var User in Users)
+            {
+                User userWithRole = new User {
+                    Email = User.Email,
+                    Roles = await _userManager.GetRolesAsync(User)
+                };
+
+                UserModel.Users.Add(userWithRole);
+            }
+
+            return View(UserModel);
         }
 
         #region Helpers
