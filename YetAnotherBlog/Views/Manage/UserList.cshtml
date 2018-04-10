@@ -25,18 +25,19 @@
         @foreach (var user in Model.Users)
         {
             <tr>
-                <th>
+                <td>
                     @user.Email
-                </th>
-                <th>
+                </td>
+                <td>
                     @foreach (var role in user.Roles)
                     {
                         @role
+                        <span> </span>
                     }
-                </th>
-                <th>
+                </td>
+                <td>
                     <a asp-action="Delete" asp-route-email=@user.Email>Delete Account</a> | <a asp-action="ChangeRole" asp-route-email="@user.Email">Change Role</a>
-                </th>
+                </td>
             </tr>
         }
     </tbody>

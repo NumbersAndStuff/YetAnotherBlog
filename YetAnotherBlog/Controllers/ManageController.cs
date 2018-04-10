@@ -490,6 +490,30 @@ namespace YetAnotherBlog.Controllers
             return View(UserModel);
         }
 
+        [HttpGet]
+        [Authorize(Roles ="Admin")]
+        public IActionResult Delete(string email)
+        {
+            return View(new User { Email = email });
+        }
+
+        [HttpGet]
+        [Authorize(Roles ="Admin")]
+        public async Task<IActionResult> ConfirmDelete(string email)
+        {
+            ApplicationUser user = await _userManager.FindByEmailAsync(email);
+            while (user != null)
+            {
+                await _userManager.DeleteAsync(user);
+
+                user = await _userManager.FindByEmailAsync(email);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Admin");
+        }
+
         #region Helpers
 
         private void AddErrors(IdentityResult result)

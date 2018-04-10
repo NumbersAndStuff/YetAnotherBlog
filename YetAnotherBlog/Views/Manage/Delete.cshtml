@@ -1,7 +1,10 @@
-﻿
+﻿@model YetAnotherBlog.Models.User
+
 @{
     ViewData["Title"] = "Delete";
+    Layout = "/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Delete</h2>
 
+Confirm deletion of account belonging to @Model.Email: <a asp-action="ConfirmDelete" asp-controller="Manage" asp-route-email=@Model.Email>Delete Account</a>
