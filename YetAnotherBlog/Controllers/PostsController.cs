@@ -53,7 +53,6 @@ namespace YetAnotherBlog.Controllers
         public async Task<IActionResult> Reply(ResponseModel response)
         {
             response.DatePosted = DateTime.Now;
-            response.PostedBy = User.FindFirstValue(ClaimTypes.NameIdentifier);
             response.Hidden = false;
 
             await _context.Responses.AddAsync(response);
@@ -74,6 +73,26 @@ namespace YetAnotherBlog.Controllers
                 await _context.SaveChangesAsync();
             }
 
+            return RedirectToAction(nameof(View) + "/" + response.ResponseTo);
+        }
+
+        [HttpGet]
+        [Authorize(Roles ="Admin")]
+        public async Task<IActionResult> DeleteResponse(Guid id)
+        {
+            ResponseModel response = await _context.Responses.FirstOrDefaultAsync(r => r.Id == id);
+            _context.Responses.Remove(response);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(View) + "/" + response.ResponseTo);
+        }
+
+        [HttpGet]
+        [Authorize(Roles ="Admin")]
+        public async Task<IActionResult> HideResponse(Guid id)
+        {
+            ResponseModel response = await _context.Responses.FirstOrDefaultAsync(r => r.Id == id);
+            response.Hidden = !response.Hidden;
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(View) + "/" + response.ResponseTo);
         }
 
@@ -193,8 +212,17 @@ namespace YetAnotherBlog.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
+            // delete the post itself
             var postModel = await _context.PostModel.SingleOrDefaultAsync(m => m.Id == id);
             _context.PostModel.Remove(postModel);
+
+            // Now, delete responses to this post
+            var responses = from response in _context.Responses where (response.ResponseTo == id) select response;
+            foreach (var response in responses)
+            {
+                _context.Responses.Remove(response);
+            }
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

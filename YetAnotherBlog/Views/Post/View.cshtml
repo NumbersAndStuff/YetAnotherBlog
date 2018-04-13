@@ -17,18 +17,26 @@
             <hr />
 
             @if (Model.Post.Tags != null)
-            {
-                @Html.DisplayNameFor(model => model.Post.Tags) <text>:</text>
-                @Html.DisplayFor(model => model.Post.Tags) <br />
-            }
+        {
+            @Html.DisplayNameFor(model => model.Post.Tags) <text>:</text>
+            @Html.DisplayFor(model => model.Post.Tags) <br />
+    }
 
             <p class="post-time">Posted at: @Html.DisplayFor(model => model.Post.TimePosted)</p>
 
             @if (Model.Post.Edited == true)
-            {
-                <p class="post-time"><text>Last Edited:</text> @Html.DisplayFor(model => model.Post.LastEdited)</p>
-            }
+        {
+            <p class="post-time"><text>Last Edited:</text> @Html.DisplayFor(model => model.Post.LastEdited)</p>
+    }
 
+        </div>
+
+        <div>
+            @if (User.IsInRole("Admin") || User.IsInRole("Poster"))
+            {
+                <a asp-action="Edit" asp-route-id="@Model.Post.Id">Edit</a> <text>|</text>
+                <a asp-action="Delete" asp-route-id=@Model.Post.Id>Delete Post</a>
+            }
         </div>
 
         @if (Model.Post.AllowResponses == true)
@@ -36,31 +44,50 @@
             <div>
                 @await Html.PartialAsync("_ResponseForm", Model.UserResponse)
             </div>
-
+            
             <div>
                 @if (Model.Responses.Count > 0)
                 {
                     <h3>Responses (@Html.DisplayFor(model => model.Responses.Count)) </h3>
                     @foreach (var response in Model.Responses)
                     {
+                        <hr />
                         <!-- Don't show hidden responses -->
                         @if (response.Hidden == false)
                         {
-                             <div>
-                                 <b>@response.PostedByName:</b> <span>Posted at: @response.DatePosted</span><br />
-                    
-                                 @response.Contents
-                             </div>
+                            <div>
+                                <b>@response.PostedByName:</b> <span>Posted at: @response.DatePosted</span><br />
+
+                                @response.Contents
+
+                                <br>
+                                <!-- Moderation options -->
+                                @if(User.IsInRole("Admin"))
+                                {
+                                    <a asp-action="HideResponse" asp-route-id="@response.Id">Hide Response</a> <text>|</text>
+                                    <a asp-action="DeleteResponse" asp-route-id="@response.Id">Delete Response</a>
+                                }
+                            </div>
                         }
-                    }
+                        else if (User.IsInRole("Admin"))
+                        {
+                            <div>
+                                <b>@response.PostedByName:</b> <span>Posted at: @response.DatePosted (<b>Hidden</b>)</span><br />
+
+                                @response.Contents
+
+                                <br>
+                                <!-- Moderation options -->
+                                @if(User.IsInRole("Admin"))
+                                {
+                                    <a asp-action="HideResponse" asp-route-id="@response.Id">Unhide Response</a> <text>|</text>
+                                    <a asp-action="DeleteResponse" asp-route-id="@response.Id">Delete Response</a>
+                                }
+                            </div>
+                        }
+                     }
                 }
             </div>
         }
     </div>
-</div>
-<div>
-    @if (User.IsInRole("Admin") || User.IsInRole("Poster")) {
-        <a asp-action="Edit" asp-route-id="@Model.Post.Id">Edit</a> <text>|</text>
-     }
-    <a asp-action="Index">Back to List</a>
 </div>

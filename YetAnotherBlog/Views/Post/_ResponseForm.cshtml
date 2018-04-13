@@ -1,5 +1,7 @@
 ﻿@model YetAnotherBlog.Models.ResponseModel
 
+@using YetAnotherBlog.Extensions
+
 
 @if (User.IsInRole("Admin") || User.IsInRole("Poster") || User.IsInRole("Member"))
 {
@@ -15,6 +17,9 @@
         </div>
         <div class="hidden">
             <textarea asp-for="ResponseTo" value=@Model.ResponseTo></textarea>
+        </div>
+        <div class="hidden">
+            <textarea asp-for="PostedByName" value=@User.Identity.GetName()></textarea>
         </div>
         <div class="form-group">
             <input type="submit" value="Post" class="btn btn-default" />
