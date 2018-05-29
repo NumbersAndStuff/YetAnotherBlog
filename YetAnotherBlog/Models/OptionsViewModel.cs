@@ -8,5 +8,6 @@ namespace YetAnotherBlog.Models
     public class OptionsViewModel
     {
         public bool EnableRegistration { get; set; }
+        public int PostsPerPage { get; set; }
     }
 }

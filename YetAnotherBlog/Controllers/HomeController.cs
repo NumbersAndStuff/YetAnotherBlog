@@ -24,6 +24,16 @@ namespace YetAnotherBlog.Controllers
             viewModel.Posts = _context.PostModel.Take(10).ToList();
             viewModel.Posts.Sort((x, y) => -DateTime.Compare(x.TimePosted, y.TimePosted));
 
+            /*
+             * Only for development
+             * TODO:
+             * Get rid of this and read options from JSON
+             * 
+             * */
+            viewModel.Options = new OptionsViewModel();
+            viewModel.Options.PostsPerPage = 10;
+            viewModel.Options.EnableRegistration = false;
+
             return View(viewModel);
         }
 

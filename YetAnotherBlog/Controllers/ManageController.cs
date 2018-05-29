@@ -66,8 +66,12 @@ namespace YetAnotherBlog.Controllers
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 IsEmailConfirmed = user.EmailConfirmed,
-                StatusMessage = StatusMessage
+                StatusMessage = StatusMessage,
+                Options = new OptionsViewModel()
             };
+
+            model.Options.PostsPerPage = 10;
+            model.Options.EnableRegistration = false;
 
             return View(model);
         }

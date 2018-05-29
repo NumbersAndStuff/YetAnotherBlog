@@ -18,5 +18,7 @@ namespace YetAnotherBlog.Models.AccountViewModels
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
+
+        public OptionsViewModel Options { get; set; }
     }
 }

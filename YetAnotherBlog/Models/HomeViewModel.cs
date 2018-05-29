@@ -8,5 +8,6 @@ namespace YetAnotherBlog.Models
     public class HomeViewModel
     {
         public List<Posts> Posts { get; set; }
+        public OptionsViewModel Options { get; set; }
     }
 }

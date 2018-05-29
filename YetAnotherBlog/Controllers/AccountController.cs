@@ -26,6 +26,8 @@ namespace YetAnotherBlog.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
 
+        private bool RegistrationEnabled;
+
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
@@ -38,6 +40,9 @@ namespace YetAnotherBlog.Controllers
             _emailSender = emailSender;
             _roleManager = roleManager;
             _logger = logger;
+
+            // TODO: Read whether registration is enabled from Options.json
+            RegistrationEnabled = false;
         }
 
         [TempData]
@@ -50,8 +55,14 @@ namespace YetAnotherBlog.Controllers
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
+            // TODO: Propograte this throughout models which will be in the final program.
+            // I intend to remove a large amount of the log in options, so this will be thinned out greatly soon.
+            // model.Options exists to allow _Login.cshtml to display correctly.
+            LoginViewModel model = new LoginViewModel();
+            model.Options = new OptionsViewModel { PostsPerPage = 10, EnableRegistration = RegistrationEnabled };
+
             ViewData["ReturnUrl"] = returnUrl;
-            return View();
+            return View(model);
         }
 
         [HttpPost]
@@ -59,12 +70,15 @@ namespace YetAnotherBlog.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
+            model.Options = new OptionsViewModel { PostsPerPage = 10, EnableRegistration = false };
+
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
@@ -211,8 +225,14 @@ namespace YetAnotherBlog.Controllers
         [AllowAnonymous]
         public IActionResult Register(string returnUrl = null)
         {
-            ViewData["ReturnUrl"] = returnUrl;
-            return View();
+            if (RegistrationEnabled == true)
+            {
+                ViewData["ReturnUrl"] = returnUrl;
+                return View();
+            }
+
+            // Registration is disabled, return home
+            return RedirectToAction("/Home/Index");
         }
 
         [HttpPost]
@@ -221,7 +241,7 @@ namespace YetAnotherBlog.Controllers
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && RegistrationEnabled == true)
             {
                 var user = new ApplicationUser { Name = model.Username, UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -238,16 +258,20 @@ namespace YetAnotherBlog.Controllers
 
                     await _userManager.AddToRoleAsync(user, "Member");
 
-                    if (user.Name == "Admin")
+                    // This was used only for development purposes.
+                    // TODO: Create production code to create an admin user.
+                    /*if (user.Name == "Admin")
                     {
                         await _userManager.AddToRoleAsync(user, "Admin");
                         _logger.LogInformation("Created Admin user");
-                    }
+                    }*/
 
                     return RedirectToLocal(returnUrl);
                 }
                 AddErrors(result);
             }
+            else if (RegistrationEnabled == false)
+                return RedirectToAction("/Home/Index");
 
             // If we got this far, something failed, redisplay form
             return View(model);
