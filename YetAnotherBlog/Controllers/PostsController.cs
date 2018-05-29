@@ -233,6 +233,9 @@ namespace YetAnotherBlog.Controllers
             var pageModel = new ViewPostViewModel();
             pageModel.UserResponse = new ResponseModel();
 
+            // TODO: Replace this.
+            pageModel.Options = new OptionsViewModel { PostsPerPage = 10, EnableRegistration = false };
+
             pageModel.Post = await _context.PostModel.FirstAsync(p => p.Id == id);
             pageModel.UserResponse.ResponseTo = pageModel.Post.Id;
             pageModel.UserResponse.PostedByName = User.Identity.Name;

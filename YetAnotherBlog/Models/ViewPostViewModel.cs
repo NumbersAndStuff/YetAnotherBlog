@@ -10,5 +10,6 @@ namespace YetAnotherBlog.Models
         public Posts Post { get; set; }
         public List<ResponseModel> Responses { get; set; }
         public ResponseModel UserResponse { get; set; }
+        public OptionsViewModel Options { get; set; }
     }
 }

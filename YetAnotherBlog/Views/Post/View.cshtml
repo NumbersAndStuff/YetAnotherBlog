@@ -12,22 +12,21 @@
     <hr />
     <div class="col-md-12">
         <div>
-            <!--@Html.DisplayFor(model => model.Post.Post)-->
+            <!-- @Html.DisplayFor(model => model.Post.Post) -->
             @Html.Raw(Model.Post.Post)
-            <hr />
 
             @if (Model.Post.Tags != null)
-        {
-            @Html.DisplayNameFor(model => model.Post.Tags) <text>:</text>
-            @Html.DisplayFor(model => model.Post.Tags) <br />
-    }
+            {
+                @Html.DisplayNameFor(model => model.Post.Tags) <text>:</text>
+                @Html.DisplayFor(model => model.Post.Tags) <br />
+            }
 
             <p class="post-time">Posted at: @Html.DisplayFor(model => model.Post.TimePosted)</p>
 
             @if (Model.Post.Edited == true)
-        {
-            <p class="post-time"><text>Last Edited:</text> @Html.DisplayFor(model => model.Post.LastEdited)</p>
-    }
+            {
+                <p class="post-time"><text>Last Edited:</text> @Html.DisplayFor(model => model.Post.LastEdited)</p>
+            }
 
         </div>
 

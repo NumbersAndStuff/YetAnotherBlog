@@ -9,11 +9,14 @@
 
 @foreach (var Post in Model.Posts)
 {
-    <div>
-        <h3><a asp-controller="Post" asp-action="View" asp-route-id=@Post.Id.ToString()>@Post.Title</a></h3> <hr />
-        <div>
-            @Post.Post
+    <div class="post-container">
+        <h3 class="post-title"><a asp-controller="Post" asp-action="View" asp-route-id=@Post.Id.ToString()>@Post.Title</a></h3>
+        <div class="post-time">Posted at: @Post.TimePosted</div>
+        
+        <hr />
+        
+        <div class="post-text">
+            @Html.Raw(Post.Post)
         </div>
     </div>
-    <hr />
 }
